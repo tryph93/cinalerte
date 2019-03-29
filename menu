@@ -1,0 +1,106 @@
+#!/usr/bin/env python
+# -*- coding: latin-1 -*-
+#
+#  menu.py
+#  
+#  Copyright 2019 Martin <Martin@DESKTOP-BE8BRBJ>
+#  
+#  This program is free software; you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation; either version 2 of the License, or
+#  (at your option) any later version.
+#  
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#  
+#  You should have received a copy of the GNU General Public License
+#  along with this program; if not, write to the Free Software
+#  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+#  MA 02110-1301, USA.
+#  
+#  Notes : entree() est pas du tout encore implémenté. Dans le menu, bcp de choses le sont à moitié.
+#  Ça fait 15 jours que j'y ai pas touché et j'ai peur d'avoir commencé des trucs sans les finir
+
+import importlib
+import os
+lib = importlib.import_module('lib_cinalertes')
+fbool = lib.fbool
+
+def entree():
+	print('*-*-* Cin\'alertes 3000 v0.12 *-*-*\n\n')
+	print('1 - Créer un nouveau profil')
+	print('2 - Charger un profil existant')
+	print('3 - Faire défiler la liste des profils existants')
+	print('4 - Supprimer un profil')
+	print('5 - Quitter')
+	
+	choix_entree = input('(1-5) : ')	
+
+def menu():
+	profil = None
+	location = 115755
+	while True:
+		print('*-*-* Cin\'alertes 3000 v0.1 *-*-*\n\n')
+		if profil==None:
+			profil = input('Entrez le profil que vous désirez charger : ')
+			try:
+				py_configuration_alertes = open(profil+'\\configuration_alertes_'+profil+'.py','r')
+				py_configuration_alertes.close()
+				print('Profil chargé.\n')
+				continue
+
+			except:
+				print('\nAucun profil trouvé au nom de '+profil+'.')
+				if fbool('Retour au menu ? (O/N) : ')==0:
+					break
+			
+		print('\nMenu principal.\n')
+		print('1 - Consulter votre liste d\'artistes et de films')
+		print('2 - Ajouter des films à votre liste')
+		print('3 - Ajouter des artistes à votre liste')
+		print('4 - Lancer une recherche sur votre sélection de films et d\'artistes')
+		print('5 - Configurer les alertes automatiques')
+		print('6 - Supprimer des films de votre liste')
+		print('7 - Supprimer des artistes de votre liste')
+		print('8 - Changer de profil')
+    print('9 - Changer le lieu de votre profil')
+		print('0 - Quitter le programme\n')
+		
+		choix_mp = input('(0-8) : ')
+		
+		if choix_mp=='1':
+			lib.consultation(profil)
+			
+		if choix_mp=='2':
+			lib.conffilms()
+		
+		if choix_mp=='3':
+			lib.confartistes()
+		
+		if choix_mp=='4':
+			lib.recherche()
+			
+		if choix_mp=='5':
+			import cron
+			
+		if choix_mp=='6':
+			lib.supprfilm()
+			
+		if choix_mp=='7':
+			lib.supprpers()
+			
+		if choix_mp=='8':
+			profil = None
+			continue
+		
+		if choix_mp=='9':
+			print('pas encore dispo mais bientôt')
+			
+		if choix_mp=='0':
+			break
+	
+	
+if __name__=='__main__':
+	menu()
